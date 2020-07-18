@@ -22,7 +22,7 @@ public class Generator {
             do {
                 try fileManager.createDirectory(atPath: outputURL.appendingPathComponent(upperContestName).absoluteString, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                throw GeneratorError.fileNotCreated
+                throw GeneratorError.directoryCreate
             }
         }
 
@@ -46,7 +46,7 @@ public class Generator {
         let fileContentCreator = FileContentCreator()
         let content = fileContentCreator.createContent(taskName: upperTaskName, from: sortedInOuts)
         guard let data = content.data(using: .utf8) else {
-            throw GeneratorError.contentDataTransformation
+            throw GeneratorError.convertContentData
         }
         let createFileResult = fileManager.createFile(atPath: outputFilePath, contents: data, attributes: nil)
         if !createFileResult {

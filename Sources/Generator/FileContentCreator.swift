@@ -18,7 +18,7 @@ class FileContentCreator {
         class \(taskName): Task {
             typealias Executer = \(taskName)TestExecuter
 
-            var inOutList: [(inputs: [String], output: String)] = {
+            var inOutList: [(inputs: [String], outputs: [String])] = {
                 [\(inOutStrings.joined(separator: ", "))]
             }()
         }
