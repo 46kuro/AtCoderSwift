@@ -4,7 +4,7 @@ class TestExecuter {
     var isMocked: Bool = true
     var inputs: [String]
     var readLineIndex: Int = 0
-    var output: String = ""
+    var outputs: [String] = []
 
     required init(inputs: [String]) {
         self.inputs = inputs
@@ -21,11 +21,7 @@ class TestExecuter {
 
     func print(_ any: Any) {
         if isMocked {
-            if output.isEmpty {
-                output = String(describing: any)
-            } else {
-                output += "\n\(String(describing: any))"
-            }
+            outputs.append(String(describing: any))
         } else {
             Swift.print(any)
         }
