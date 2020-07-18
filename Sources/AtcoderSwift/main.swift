@@ -1,3 +1,3 @@
 import Foundation
 
-ABC173A().tests()
+ABC173B().tests()
