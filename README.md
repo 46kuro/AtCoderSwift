@@ -21,7 +21,17 @@ To parse HTML, I use the [SwiftSoup](https://github.com/scinfu/SwiftSoup.git).
 
 ##### Usage
 
-You just execute such as below command. If you generate xcodeproj, you can run in the Xcode.  
+You just execute such as below command.  
 ```sh
 $swift run AtCoderSwiftGenerator --contest {contest name(ex. abc173)} --task {task name(ex. a)} --output {path to your output root directory}
+```
+
+If you would like to generate xcodeproj, you may run in the Xcode after running above script.
+```sh
+$swift package generate-xcodeproj
+```
+
+You can also use following scripts. `generate.sh` is running above generating code, generating xcodeproj and open Xcode. 
+```sh
+$./generate.sh -c {contest name(ex. abc173)} -t {task name(ex. a)}
 ```
