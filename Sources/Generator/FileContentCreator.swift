@@ -19,7 +19,9 @@ class FileContentCreator {
             typealias Executer = \(taskName)TestExecuter
 
             var inOutList: [(inputs: [String], outputs: [String])] = {
-                [\(inOutStrings.joined(separator: ", "))]
+                [
+                    \(inOutStrings.joined(separator: ",\n            "))
+                ]
             }()
         }
 
