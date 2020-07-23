@@ -20,6 +20,7 @@ class ABC172BTestExecuter: TestExecuter {
         let S = readLine()!
         let T = readLine()!
 
+        // Reference: https://stackoverflow.com/questions/25921204/convert-swift-string-to-array
         let s = Array(S)
         let t = Array(T)
         print(s.enumerated().reduce(0) {
