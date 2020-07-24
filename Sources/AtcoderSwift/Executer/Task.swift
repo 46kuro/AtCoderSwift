@@ -1,13 +1,13 @@
 import Foundation
 
 struct TaskError: Error {
-    var index: Int
+    var number: Int
     var expectedOutputs: [String]
     var actualOutputs: [String]
 
     var localizedDescription: String {
         """
-        ❌Example\(index+1) test failed
+        ❌Example\(number) test failed.
         Expected output value is
         \(expectedOutputs)
         Actual value is
@@ -24,22 +24,25 @@ protocol Task {
 
 extension Task {
     func tests() {
-        let executeResults: [TaskError] = inOutList.enumerated().compactMap {
-            let executer = Executer(inputs: $0.element.inputs)
-            executer.execute()
-            if executer.outputs != $0.element.outputs {
-                return TaskError(index: $0.offset, expectedOutputs: $0.element.outputs, actualOutputs: executer.outputs)
-            } else {
-                return nil
+        inOutList.enumerated().forEach {
+            let result = execute(inOut: $0.element, offset: $0.offset)
+            switch result {
+            case .success(let time):
+                print("✅Example\($0.offset + 1) succeeded. Execution time is \(time)s.")
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
+    }
 
-        if executeResults.isEmpty {
-            print("✅all test succeeded!")
+    private func execute(inOut: (inputs: [String], outputs: [String]), offset: Int) -> Result<Double, TaskError> {
+        let startingDate = Date()
+        let executer = Executer(inputs: inOut.inputs)
+        executer.execute()
+        if executer.outputs != inOut.outputs {
+            return .failure(TaskError(number: offset + 1, expectedOutputs: inOut.outputs, actualOutputs: executer.outputs))
         } else {
-            executeResults.forEach {
-                print($0.localizedDescription)
-            }
+            return .success(Date().timeIntervalSince(startingDate))
         }
     }
 }
