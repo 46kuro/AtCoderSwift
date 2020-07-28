@@ -7,8 +7,16 @@ class FileContentCreator {
             guard let input = $0.input, let output = $0.output else {
                 return nil
             }
-            let inputListString = input.split(separator: "\r\n").map { "\"\($0)\"" }.joined(separator: ", ")
-            let outputListString = output.split(separator: "\r\n").map { "\"\($0)\"" }.joined(separator: ", ")
+            let inputListString = input
+                .replacingOccurrences(of: "\r", with: "")
+                .split(separator: "\n")
+                .map { "\"\($0)\"" }
+                .joined(separator: ", ")
+            let outputListString = output
+                .replacingOccurrences(of: "\r", with: "")
+                .split(separator: "\n")
+                .map { "\"\($0)\"" }
+                .joined(separator: ", ")
             return "(inputs: [\(inputListString)], outputs: [\(outputListString)])"
         }
         let content =

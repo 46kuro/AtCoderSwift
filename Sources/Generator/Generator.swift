@@ -6,11 +6,13 @@ public class Generator {
     private let contestName: String
     private let taskName: String
     private let outputURL: URL
+    private let html: String?
 
-    public init(contestName: String, taskName: String, outputURL: URL) {
+    public init(contestName: String, taskName: String, outputURL: URL, html: String? = nil) {
         self.contestName = contestName
         self.taskName = taskName
         self.outputURL = outputURL
+        self.html = html
     }
 
     public func generate() throws {
@@ -31,10 +33,17 @@ public class Generator {
             throw GeneratorError.fileAlreadyExist
         }
 
-        guard let atCoderURL = URL(string: "https://atcoder.jp/contests/\(contestName)/tasks/\(taskName)") else {
-            throw GeneratorError.urlIsWrong
+        let parser: HTMLParser
+        if let html = html {
+            parser = HTMLParser(parseType: .url(URL(fileURLWithPath: html)))
+        } else {
+            guard let atCoderURL = URL(string: "https://atcoder.jp/contests/\(contestName)/tasks/\(taskName)") else {
+                throw GeneratorError.urlIsWrong
+            }
+            parser = HTMLParser(parseType: .url(atCoderURL))
         }
-        let parser = HTMLParser(parseType: .url(atCoderURL))
+
+
         let inOuts: [InOut]
         do {
             inOuts = try parser.convertToInOut()

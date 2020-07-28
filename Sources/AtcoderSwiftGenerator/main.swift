@@ -5,8 +5,9 @@ import Generator
 command(
     Option<String?>("contest", default: nil, description: "Contest name(ex.abc173)"),
     Option<String?>("task", default: nil, description: "Task name(ex. a,b,c)"),
-    Option<String?>("output", default: nil, description: "Output root path")
-) { contest, task, output in
+    Option<String?>("output", default: nil, description: "Output root path"),
+    Option<String?>("html", default: nil, description: "(Optional)HTML file path")
+) { contest, task, output, html in
     guard let contest = contest else {
         print("Please type contest name.")
         return
@@ -24,8 +25,8 @@ command(
     }
 
     tasks.forEach {
-        let taskName = "\(contest)_\($0)"
-        let generator = Generator(contestName: contest, taskName: taskName, outputURL: outputURL)
+        let taskName = "\(contest)_\($0)".replacingOccurrences(of: "-", with: "_")
+        let generator = Generator(contestName: contest, taskName: taskName, outputURL: outputURL, html: html)
         do {
             try generator.generate()
             print("Generate \(taskName) file!")

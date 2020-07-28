@@ -41,37 +41,24 @@ class HTMLParser {
             throw GeneratorError.styleNotFound
         }
 
-        let inOuts: [Int: InOut] = inputElements.array().reduce([:]) {
+        return inputElements.array().reduce([]) {
             guard let header = try? $1.select("section > h3"),
                 let text = try? header.text() else { return $0 }
 
-            if text.contains("入力例"), let last = text.last, let index = Int(String(last)) {
+            let index = $0.count + 1
+            if text.contains("入力例") {
                 guard let preText = try? $1.select("section > pre").text() else { return $0 }
                 var newResult = $0
-                if $0[index] == nil {
-                    newResult[index] = InOut(input: preText, output: nil)
-                } else {
-                    newResult[index]?.input = preText
-                }
+                newResult.append(InOut(index: index, input: preText, output: nil))
                 return newResult
-            } else if text.contains("出力例"), let last = text.last, let index = Int(String(last)) {
+            } else if text.contains("出力例") {
                 guard let preText = try? $1.select("section > pre").text() else { return $0 }
                 var newResult = $0
-                if $0[index] == nil {
-                    newResult[index] = InOut(input: nil, output: preText)
-                } else {
-                    newResult[index]?.output = preText
-                }
+                newResult[$0.count-1].output = preText
                 return newResult
             } else {
                 return $0
             }
-        }
-
-        return inOuts.map {
-            var value = $0.value
-            value.index = $0.key
-            return value
         }
     }
 
