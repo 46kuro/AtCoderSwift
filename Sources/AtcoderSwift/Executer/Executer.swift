@@ -1,7 +1,6 @@
 import Foundation
 
 class TestExecuter {
-    var isMocked: Bool = true
     var inputs: [String]
     var readLineIndex: Int = 0
     var outputs: [String] = []
@@ -11,23 +10,13 @@ class TestExecuter {
     }
 
     func readLine() -> String? {
-        if isMocked {
-            readLineIndex += 1
-            return inputs[readLineIndex-1]
-        } else {
-            return Swift.readLine()
-        }
+        readLineIndex += 1
+        return inputs[readLineIndex-1]
     }
 
     func print(_ any: Any) {
-        if isMocked {
-            outputs.append(String(describing: any))
-        } else {
-            Swift.print(any)
-        }
+        outputs.append(String(describing: any))
     }
 
-    func execute() {
-
-    }
+    func execute() { }
 }
