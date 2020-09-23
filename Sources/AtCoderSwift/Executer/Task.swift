@@ -2,23 +2,23 @@ import Foundation
 
 struct TaskError: Error {
     var number: Int
-    var expectedOutputs: [String]
-    var actualOutputs: [String]
+    var expectedOutput: String
+    var actualOutput: String
 
     var localizedDescription: String {
         """
         ❌Example\(number) test failed.
         Expected output value is
-        \(expectedOutputs)
+        \(expectedOutput)
         Actual value is
-        \(actualOutputs)
+        \(actualOutput)
         """
     }
 }
 
 protocol Task {
     associatedtype Executer: TestExecuter
-    var inOutList: [(inputs: [String], outputs: [String])] { get }
+    var inOutList: [(input: String, output: String)] { get }
     func tests()
 }
 
@@ -35,12 +35,12 @@ extension Task {
         }
     }
 
-    private func execute(inOut: (inputs: [String], outputs: [String]), offset: Int) -> Result<Double, TaskError> {
+    private func execute(inOut: (input: String, output: String), offset: Int) -> Result<Double, TaskError> {
         let startingDate = Date()
-        let executer = Executer(inputs: inOut.inputs)
+        let executer = Executer(input: inOut.input)
         executer.execute()
-        if executer.outputs != inOut.outputs {
-            return .failure(TaskError(number: offset + 1, expectedOutputs: inOut.outputs, actualOutputs: executer.outputs))
+        if executer.outputs.joined(separator: "\n") != inOut.output {
+            return .failure(TaskError(number: offset + 1, expectedOutput: inOut.output, actualOutput: executer.outputs.joined(separator: "\n")))
         } else {
             return .success(Date().timeIntervalSince(startingDate))
         }

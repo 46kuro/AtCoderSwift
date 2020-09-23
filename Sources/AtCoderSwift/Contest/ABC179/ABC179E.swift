@@ -3,11 +3,35 @@ import Foundation
 class ABC179E: Task {
     typealias Executer = ABC179ETestExecuter
 
-    var inOutList: [(inputs: [String], outputs: [String])] = {
+    var inOutList: [(input: String, output: String)] = {
         [
-            (inputs: ["6 2 1001"], outputs: ["1369"]),
-            (inputs: ["1000 2 16"], outputs: ["6"]),
-            (inputs: ["10000000000 10 99959"], outputs: ["492443256176507"]),
+            (input:
+                """
+                6 2 1001
+                """,
+            output:
+                """
+                1369
+                """
+            ),
+            (input:
+                """
+                1000 2 16
+                """,
+            output:
+                """
+                6
+                """
+            ),
+            (input:
+                """
+                10000000000 10 99959
+                """,
+            output:
+                """
+                492443256176507
+                """
+            ),
         ]
     }()
 }
@@ -25,7 +49,7 @@ class ABC179ETestExecuter: TestExecuter {
         var pointers = [Int: Int]()
         var array: [Int] = [x]
         var cycle: (Int, Int)? = nil
-        for i in 0..<n-1 {
+        for _ in 0..<n-1 {
             let ai = (array.last! * array.last!) % m
             array.append(ai)
 

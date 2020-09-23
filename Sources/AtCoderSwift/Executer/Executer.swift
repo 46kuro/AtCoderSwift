@@ -5,8 +5,8 @@ class TestExecuter {
     var readLineIndex: Int = 0
     var outputs: [String] = []
 
-    required init(inputs: [String]) {
-        self.inputs = inputs
+    required init(input: String) {
+        self.inputs = input.components(separatedBy: "\n")
     }
 
     func readLine() -> String? {

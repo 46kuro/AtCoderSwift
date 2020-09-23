@@ -3,10 +3,26 @@ import Foundation
 class ABC179C: Task {
     typealias Executer = ABC179CTestExecuter
 
-    var inOutList: [(inputs: [String], outputs: [String])] = {
+    var inOutList: [(input: String, output: String)] = {
         [
-            (inputs: ["3"], outputs: ["3"]),
-            (inputs: ["100"], outputs: ["473"]),
+            (input:
+                """
+                3
+                """,
+            output:
+                """
+                3
+                """
+            ),
+            (input:
+                """
+                100
+                """,
+            output:
+                """
+                473
+                """
+            ),
         ]
     }()
 }
